@@ -93,7 +93,7 @@ const NavigationBar = () => {
         </div>
       </div>
       <div className="navbar-end">
-      <button className="btn btn-outline btn-error">Appointment</button>
+      <button className="btn btn-outline border-[#ed2c2c] text-[#ed2c2c] hover:bg-[#ed2c2c]">Appointment</button>
       </div>
     </div>
   );

@@ -9,8 +9,8 @@ const About = () => {
         <img src={parts} className="max-w-sm rounded-lg shadow-2xl lg:absolute right-0 top-1/2 border-white border-8" />
         </div>
         <div className="lg:w-1/2">
-          <h5 className="font-extrabold text-xl text-orange-600">About Us</h5>
-          <h2 className="text-5xl font-bold">
+          <h5 className="font-extrabold text-lg text-orange-600">About Us</h5>
+          <h2 className="text-4xl font-bold mt-4">
             We are qualified & of experience in this field
           </h2>
           <p className="py-6">

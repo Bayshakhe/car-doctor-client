@@ -13,8 +13,8 @@ const Banner = () => {
           There are many variations of passages of available, but the majority
           have suffered alteration in some form
         </p>
-        <button className="btn bg-red-600 mr-3">Discover More</button>
-        <button className="btn btn-error btn-outline">Latest Project</button>
+        <button className="btn bg-[#ed2c2c] mr-3">Discover More</button>
+        <button className="btn btn-outline border-[#ed2c2c] text-[#ed2c2c] hover:bg-[#ed2c2c]">Latest Project</button>
       </div>
     </div>
   );
