@@ -93,7 +93,7 @@ const NavigationBar = () => {
         </div>
       </div>
       <div className="navbar-end">
-        <a className="btn">Get started</a>
+      <button className="btn btn-outline btn-error">Appointment</button>
       </div>
     </div>
   );
