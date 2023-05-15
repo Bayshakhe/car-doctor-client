@@ -1,7 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProviders";
 
 const NavigationBar = () => {
+  const { user, logout } = useContext(AuthContext);
+  const handleLogout = () => {
+    logout()
+      .then(() => {})
+      .catch((error) => console.log(error.message));
+  };
   const navItems = (
     <>
       <li>
@@ -54,6 +62,38 @@ const NavigationBar = () => {
           Contact
         </NavLink>
       </li>
+      <li>
+        {user?.email ? (
+          <>
+          <NavLink
+            to="/orders"
+            className={({ isActive }) =>
+              isActive ? "text-red-500 font-bold" : ""
+            }
+          >
+            My Order
+          </NavLink>
+          <NavLink
+            to="/"
+            onClick={handleLogout}
+            className={({ isActive }) =>
+              isActive ? "text-red-500 font-bold" : ""
+            }
+          >
+            Log out
+          </NavLink>
+          </>
+        ) : (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? "text-red-500 font-bold" : ""
+            }
+          >
+            Log in
+          </NavLink>
+        )}
+      </li>
     </>
   );
   return (
@@ -93,7 +133,9 @@ const NavigationBar = () => {
         </div>
       </div>
       <div className="navbar-end">
-      <button className="btn btn-outline border-[#ed2c2c] text-[#ed2c2c] hover:bg-[#ed2c2c]">Appointment</button>
+        <button className="btn btn-outline border-[#ed2c2c] text-[#ed2c2c] hover:bg-[#ed2c2c]">
+          Appointment
+        </button>
       </div>
     </div>
   );
