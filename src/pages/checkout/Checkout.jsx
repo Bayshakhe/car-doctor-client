@@ -24,7 +24,7 @@ const Checkout = () => {
       img,
     };
 
-    fetch("http://localhost:5000/checkout", {
+    fetch("https://car-doctor-server-indol.vercel.app/checkout", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -90,7 +90,7 @@ const Checkout = () => {
               <span className="label-text font-semibold">Due Amount</span>
             </label>
             <input
-              type="number"
+              type="text"
               name="price"
               defaultValue={price}
               className="input input-bordered rounded-md"

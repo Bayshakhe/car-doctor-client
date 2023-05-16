@@ -12,7 +12,7 @@ const Orders = () => {
   // console.log(user)
   // console.log(orders)
 
-  const url = `http://localhost:5000/checkout?email=${user?.email}`
+  const url = `https://car-doctor-server-indol.vercel.app/checkout?email=${user?.email}`
   
   useEffect(() => {
     fetch(url, {
@@ -34,18 +34,20 @@ const Orders = () => {
           })
         }
       });
-  }, [url]);
+  }, [url,logout,navigate]);
 
   const handleDeleteOrder = (id) => {
     const proceed = confirm('Are you want to delete this?')
     if(proceed){
       console.log(id)
-      fetch(`http://localhost:5000/checkout/${id}`,{
+      fetch(`https://car-doctor-server-indol.vercel.app/checkout/${id}`,{
         method: 'DELETE',
       })
       .then(res => res.json())
       .then(result => {
         console.log(result)
+        const newArray = orders.filter(order => order._id !== id)
+        setOrders(newArray)
         if(result.deletedCount > 0){
           alert('Successfully deleted')
         }
@@ -55,7 +57,7 @@ const Orders = () => {
 
   const handleConfirmOrder = (id) => {
     console.log(id)
-    fetch(`http://localhost:5000/checkout/${id}`,{
+    fetch(`https://car-doctor-server-indol.vercel.app/checkout/${id}`,{
         method: 'PATCH',
         headers:{
           'content-type': 'application/json'

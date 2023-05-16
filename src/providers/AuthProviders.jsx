@@ -45,7 +45,7 @@ const AuthProviders = ({ children }) => {
         email: currentuser?.email
       }
       if(currentuser){
-        fetch('http://localhost:5000/jwt',{
+        fetch('https://car-doctor-server-indol.vercel.app/jwt',{
         method: 'POST',
         headers: {
           'content-type': 'application/json'
