@@ -2,9 +2,8 @@ const SingleOrder = ({
   order,
   handleDeleteOrder,
   handleConfirmOrder,
-  confirmed,
 }) => {
-  const { _id, img, price, date, service_title } = order;
+  const { _id, img, price, date, service_title, status } = order;
   // console.log(order)
   return (
     <tr>
@@ -29,7 +28,7 @@ const SingleOrder = ({
       <td>${price}</td>
       <td>{date}</td>
       <td>
-        {confirmed ? (
+        {status === "Confirm" ? (
           <button className="btn bg-green-600 btn-sm normal-case">
             Confirmed
           </button>

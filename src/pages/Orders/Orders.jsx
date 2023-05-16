@@ -1,25 +1,40 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProviders";
 import SingleOrder from "./SingleOrder";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const { user } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
-  const [controll, setControll] = useState(false)
-  const [confirmed, setConfirmed] = useState(false)
+  const {logout} = useContext(AuthContext)
+  // const [controll, setControll] = useState(false);
+  const navigate = useNavigate()
   // console.log(user)
   // console.log(orders)
 
   const url = `http://localhost:5000/checkout?email=${user?.email}`
   
   useEffect(() => {
-    fetch(url)
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('car-doctor-access-token')}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
-        setOrders(data);
+        if(!data.error){
+          setOrders(data);
+        }
+        else{
+          logout()
+          .then(()=>{
+            navigate('/')
+          })
+        }
       });
-  }, [controll]);
+  }, [url]);
 
   const handleDeleteOrder = (id) => {
     const proceed = confirm('Are you want to delete this?')
@@ -33,7 +48,6 @@ const Orders = () => {
         console.log(result)
         if(result.deletedCount > 0){
           alert('Successfully deleted')
-          setControll(!controll)
         }
       })
     }
@@ -53,7 +67,11 @@ const Orders = () => {
         console.log(result)
         if(result.modifiedCount > 0){
           alert('Successfully Confirmed')
-          setConfirmed(true)
+          const remaining = orders.filter(order => order._id !== id)
+          const update = orders.find(order => order._id === id)
+          update.status = "Confirm"
+          const newOrders = [update, ...remaining]
+          setOrders(newOrders)
         }
       })
   }
@@ -65,7 +83,7 @@ const Orders = () => {
 
         <tbody>
           {orders.map((order) => (
-            <SingleOrder key={order._id} order={order} handleDeleteOrder={handleDeleteOrder} handleConfirmOrder={handleConfirmOrder} confirmed={confirmed}></SingleOrder>
+            <SingleOrder key={order._id} order={order} handleDeleteOrder={handleDeleteOrder} handleConfirmOrder={handleConfirmOrder} ></SingleOrder>
           ))}
         </tbody>
       </table>

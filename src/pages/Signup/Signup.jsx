@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProviders';
 
 const Signup = () => {
-    const {createUser} = useContext(AuthContext)
+    const {createUser,googleLogin} = useContext(AuthContext)
     const handleSignup = (event) => {
         event.preventDefault()
         const form = event.target;
@@ -17,6 +17,15 @@ const Signup = () => {
         .then(result => console.log(result))
         .catch(error => console.log(error.message))
     }
+    const handleGoogleLogin = () => {
+      googleLogin()
+      .then(result => {
+        const loggedUser = result.user;
+        console.log(loggedUser)
+      })
+      .catch(error => console.log(error.message))
+    }
+
     return (
         <div className="hero py-20">
       <div className="hero-content grid grid-cols-1 md:grid-cols-2">
@@ -62,7 +71,7 @@ const Signup = () => {
             </div>
             <p className="text-center mt-3">Or Sign in with</p>
             <div className="flex justify-center">
-                <img className="w-12" src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google" />
+                <img onClick={handleGoogleLogin} className="w-12" src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png" alt="Google" />
                 <img className="w-12" src="https://icons-for-free.com/iconfiles/png/512/facebook+logo+logo+website+icon-1320190502625926346.png" alt="Facebook" />
                 <img className="w-12" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-qONJfLFqTbfAacaOuzgSQQigqxPM2o8njg&usqp=CAU" alt="Linkedin" />
             </div>

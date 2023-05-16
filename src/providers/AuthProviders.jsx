@@ -1,8 +1,10 @@
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import app from "../../src/firebase/firebase.config";
@@ -13,6 +15,7 @@ const AuthProviders = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const googleProvider = new GoogleAuthProvider();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -24,6 +27,10 @@ const AuthProviders = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const googleLogin = () => {
+    return signInWithPopup(auth, googleProvider)
+  }
+
   const logout = () => {
     setLoading(true);
     return signOut(auth);
@@ -34,6 +41,23 @@ const AuthProviders = ({ children }) => {
       setUser(currentuser);
       // console.log("current user", currentuser);
       setLoading(false);
+      const loggedUser = {
+        email: currentuser?.email
+      }
+      if(currentuser){
+        fetch('http://localhost:5000/jwt',{
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(loggedUser)
+      })
+      .then(res => res.json())
+      .then(data => {
+        // console.log('jwt response', data)
+        localStorage.setItem('car-doctor-access-token', data.token)
+      })
+      }
     });
     return () => {
       return unsubscribe();
@@ -44,6 +68,7 @@ const AuthProviders = ({ children }) => {
     user,
     createUser,
     signinUser,
+    googleLogin,
     loading,
     logout,
   };
