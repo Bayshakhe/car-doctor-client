@@ -38,13 +38,16 @@ const AuthProviders = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+      setLoading(false);
       setUser(currentuser);
       // console.log("current user", currentuser);
-      setLoading(false);
-      const loggedUser = {
+      // const loggedUser = {
+      //   email: currentuser?.email
+      // }
+      if(currentuser && currentuser?.email){
+        const loggedUser = {
         email: currentuser?.email
       }
-      if(currentuser){
         fetch('https://car-doctor-server-indol.vercel.app/jwt',{
         method: 'POST',
         headers: {
@@ -62,7 +65,7 @@ const AuthProviders = ({ children }) => {
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [auth]);
 
   const authInfo = {
     user,

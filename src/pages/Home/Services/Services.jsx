@@ -3,11 +3,12 @@ import ServiceCard from "./ServiceCard";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+  const [asc, setAsc] = useState(true)
   useEffect(() => {
-    fetch("https://car-doctor-server-indol.vercel.app/services")
+    fetch(`https://car-doctor-server-indol.vercel.app/services?sort=${asc ? 'asc' : 'desc'}`)
       .then((res) => res.json())
       .then((data) => setServices(data));
-  }, []);
+  }, [asc]);
   return (
     <div className="text-center mt-12 mb-24">
       <h5 className="font-extrabold text-lg text-orange-600">Service</h5>
@@ -16,6 +17,7 @@ const Services = () => {
         The majority have suffered alteration in some form, by injected humour,
         or randomised words which do not look even slightly believable.
       </p>
+      <button onClick={()=>setAsc(!asc)} className="btn mb-5">{asc ? "Price High to Low" : "Price Low to High"}</button>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {services.map((service) => (
           <ServiceCard key={service._id} service={service}></ServiceCard>
